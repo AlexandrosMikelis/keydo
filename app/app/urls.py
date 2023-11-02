@@ -13,9 +13,35 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularSwaggerView,
+)
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.apps import apps
+
+from django_otp.admin import OTPAdminSite
+from django_otp.plugins.otp_totp.models import TOTPDevice
+from django_otp.plugins.otp_totp.admin import TOTPDeviceAdmin
+
+from . import views
+from .views import login_wrapper
+
+class OTPAdmin(OTPAdminSite):
+    pass
+
+admin_site = OTPAdmin(name='OTPAdmin')
+admin_site.register(apps.get_model('core','User'))
+admin_site.register(apps.get_model('core','UserKeystrokes'))
+admin_site.register(TOTPDevice, TOTPDeviceAdmin)
+admin_site.login = login_wrapper(admin_site.login)
+
+handler403 = views.handler403
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin_site.urls),
+    path('api/schema/', SpectacularAPIView.as_view(), name='api-schema'),
+    path('api/docs/', SpectacularSwaggerView.as_view(url_name='api-schema'), name='api-docs'),
+    path('api/user/', include('user.urls')),
 ]
