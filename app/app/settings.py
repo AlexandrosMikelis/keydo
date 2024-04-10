@@ -45,11 +45,11 @@ INSTALLED_APPS = [
     'core',
     'rest_framework',
     'rest_framework.authtoken',
-    'drf_spectacular',
     'user',
     'django_otp',
     'django_otp.plugins.otp_totp',
-    'corsheaders'
+    'corsheaders',
+    'drf_spectacular'
 ]
 
 MIDDLEWARE = [
