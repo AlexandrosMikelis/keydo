@@ -1,6 +1,8 @@
 import uuid
 from django.db import models
 
+from django.conf import settings
+
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 class UserManager(BaseUserManager):
@@ -29,8 +31,9 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     
-    email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255, unique=True)
+    password = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     
@@ -40,8 +43,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     
 class UserKeystrokes(models.Model):
     
-    # user = models.ForeignKey(User, on_delete=models.CASCADE)
-    # keystroke_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE)
+    keystroke_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     key_code = models.CharField(max_length=15)
     event = models.CharField(max_length=15)
     timestamp = models.CharField(max_length=30)

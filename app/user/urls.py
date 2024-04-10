@@ -1,11 +1,12 @@
 from django.urls import path,include
-from user import views
+from .views import *
 
 app_name = 'user'
 
 urlpatterns = [
-    path('create/', views.CreateUserView.as_view(), name='create'),
-    path('token/', views.CreateTokenView.as_view(), name='token'),
-    path('login/', views.LoginView.as_view(), name='login'),
+    path('register/', registerAPIView.as_view()),
+    path('login/', LoginAPIView.as_view()),
+    path('', UserView.as_view()),
+    path('logout/', LogoutView.as_view()),
     path('keystrokes/', include('keydo_api.urls')),
 ]

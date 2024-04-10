@@ -4,6 +4,6 @@ from keydo_api import views
 app_name = 'keydo_api'
 
 urlpatterns = [
-    path('add/', views.AddKeystrokesView.as_view(), name='create'),
-    # path('list/', )
+    path('add/', views.KeystrokesView.as_view(), name='create'),
+    path('', views.ListKeystrokesView.as_view())
 ]
