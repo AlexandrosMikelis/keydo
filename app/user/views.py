@@ -46,7 +46,7 @@ class LoginAPIView(APIView):
             "iat": datetime.datetime.utcnow()
         }
 
-        token = jwt.encode(payload, 'secret', algorithm='HS256')
+        token = jwt.encode(payload, 'secret', algorithm='HS256').decode('utf-8')
         # token.decode('utf-8')
         #we set token via cookies
         

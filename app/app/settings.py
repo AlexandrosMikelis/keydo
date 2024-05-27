@@ -26,7 +26,14 @@ SECRET_KEY = 'django-insecure-1zuf19c^j4cm0$^z-3&0bdnid3_pfy-5qip8@b09h-4c4k)t!$
 DEBUG = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "",
+    }
+}
 
 CORS_ALLOWED_ORGINS = [
     'http://localhost:8000',
@@ -47,10 +54,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'user',
+    'keydo_api',
     'django_otp',
     'django_otp.plugins.otp_totp',
     'corsheaders',
-    'drf_spectacular'
+    'drf_spectacular',
+    'debug_toolbar'
 ]
 
 MIDDLEWARE = [
@@ -62,8 +71,16 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_otp.middleware.OTPMiddleware'
+    'django_otp.middleware.OTPMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware'
 ]
+
+DEBUG_TOOLBAR_CONFIG = {
+    "DISABLE_PANELS": ["debug_toolbar.panels.redirects.RedirectsPanel"],
+    "SHOW_TEMPLATE_CONTEXT": True,
+}
+
+INTERNAL_IPS = ["127.0.0.1", "10.0.2.2"]
 
 ROOT_URLCONF = 'app.urls'
 
@@ -156,3 +173,18 @@ SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_SAMESITE = 'Strict'
 # SESSION_COOKIE_NAME = '__Host-Session'
+
+KAFKA_URL = "broker:29092"
+
+KAFKA_STREAM_TOPIC = "keystoke-events"
+
+# if env("USE_DOCKER") == "yes":
+#     import socket
+
+#     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+#     INTERNAL_IPS += [".".join(ip.split(".")[:-1] + ["1"]) for ip in ips]
+
+# django-extensions
+# ------------------------------------------------------------------------------
+# https://django-extensions.readthedocs.io/en/latest/installation_instructions.html#configuration
+INSTALLED_APPS += ["django_extensions"]  # noqa F405
