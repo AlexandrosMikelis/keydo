@@ -13,7 +13,6 @@ RUN apk update && \
         postgresql-dev
 
 COPY app/requirements .
-# COPY ./requirements.dev.txt /tmp/requirements.dev.txt
 
 RUN pip wheel --wheel-dir /usr/src/app/wheels -r ${BUILD_ENVIRONMENT}.txt
 

@@ -32,17 +32,6 @@ class KeystrokeViewSet(viewsets.ModelViewSet):
         }
         return serializers.get(self.action)
 
-    # def list(self, request):
-    #     queryset = Metric.objects.all()
-    #     serializer = self.get_serializer(queryset, many=True)
-    #     return Response(serializer.data)
-
-    # def retrieve(self, request, pk=None):
-    #     queryset = Metric.objects.all()
-    #     metric = get_object_or_404(queryset, pk=pk)
-    #     serializer = self.get_serializer(metric)
-    #     return Response(serializer.data)
-
     def create(self, request):
         serializer = self.get_serializer(
             data=request.data,
