@@ -4,5 +4,5 @@ MB_DB_HOST=db
 MB_DB_PORT=5432
 MB_DB_DBNAME=devdb
 MB_DB_USER=devuser
-MB_DB_PASS=changeme
-MB_DB_TYPE=postgres
+MB_DB_PASS=
+MB_DB_TYPE=
